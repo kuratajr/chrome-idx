@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chrome
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: chrome
+  template:
+    metadata:
+      labels:
+        app: chrome
+    spec:
+      containers:
+        - name: chrome
+          image: lscr.io/linuxserver/chrome:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "Asia/Ho_Chi_Minh"
+            - name: CHROME_CLI
+              value: "--no-sandbox"
+          volumeMounts:
+            - name: chrome-storage
+              mountPath: /config
+      volumes:
+        - name: chrome-storage
+          persistentVolumeClaim:
+            claimName: chrome-config
