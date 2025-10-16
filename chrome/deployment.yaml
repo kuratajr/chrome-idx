@@ -34,8 +34,8 @@ spec:
               value: "1000"
             - name: TZ
               value: "Asia/Ho_Chi_Minh"
-            - name: CHROME_CLI
-              value: "--no-sandbox"
+            - name: CHROME_OPTS
+              value: "--no-sandbox --disable-dev-shm-usage"
           volumeMounts:
             - name: chrome-storage
               mountPath: /config
