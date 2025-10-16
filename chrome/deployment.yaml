@@ -2,8 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: chrome
+  namespace: default
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: chrome
@@ -12,6 +13,15 @@ spec:
       labels:
         app: chrome
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: longhorn.io/node
+                    operator: In
+                    values:
+                      - "true"
       containers:
         - name: chrome
           image: lscr.io/linuxserver/chrome:latest
